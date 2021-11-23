@@ -1,41 +1,24 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import * as d3 from 'd3';
 
 import './App.css';
-  
-// const data = [
-  //   { "country": "China", "population": 1415046},
-  //   { "country": "India", "population": 1354052},
-  //   { "country": "United States", "population": 326767},
-  //   { "country": "Indonesia", "population": 266795},
-  //   { "country": "Brazil", "population": 210868},
-  //   { "country": "Pakistan", "population": 200814},
-  //   { "country": "Nigeria", "population": 195875},
-  //   { "country": "Bangladesh", "population": 166368},
-  //   { "country": "Russia", "population": 143965},
-  //   { "country": "Mexico", "population": 130759}
-  // ]
-  
+import { message } from './message';
+
 const height = 500;
 const width = 960;
-const circleRadius = 30;
-const initialMousePos = { x: width / 2, y : height / 2};
-  
+const csvUrl = 'https://gist.githubusercontent.com/JosephStalnaker/539ae314a112da952df3e5b9af7eef48/raw/c0457df5300920603141bce472b4996a8b3d2a2a/cssNamedColors.csv';
+
 function App() {
   
-  const [mousePos, setMousePos] = useState(initialMousePos);
+  const [data, setData] = useState(null);
 
-  const handleMouseMove = useCallback(e => {
-    const { clientX, clientY } = e;
-    setMousePos({ x: clientX, y: clientY })
-  }, [setMousePos])
-  
-  const svg = <svg width={width} height={height} onMouseMove={handleMouseMove}>
-    <circle cx={mousePos.x} cy={mousePos.y} r={circleRadius} />
-  </svg>
+  useEffect(() => {
+    d3.csv(csvUrl).then(setData);
+  }, [])
 
   return (
     <div className="App">
-      {svg}
+      Data is { data ? message(data) : 'loading' }
     </div>
   );
 }
