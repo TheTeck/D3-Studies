@@ -1,19 +1,26 @@
 const canvas = d3.select(".canva");
 
-const dataArray = [44, 120, 180];
+//const dataArray = [44, 120, 180, 166, 330]
 
-// const svg = canvas.append("svg")
-//                 .attr('width', 600)
-//                 .attr('height', 600)
-   
-const svg = canvas.select("svg")
-                .attr('height', 200)
+const dataArray = [
+    { width: 25, height: 4, fill: 'pink' },
+    { width: 25, height: 14, fill: 'purple' },
+    { width: 25, height: 44, fill: 'orange' },
+    { width: 25, height: 124, fill: 'green' },
+    { width: 25, height: 12, fill: 'blue' },
+    { width: 25, height: 88, fill: 'red' }
+]
+
+const svg = canvas.append("svg")
+                .attr('width', 600)
+                .attr('height', 600)
 
 const rects = svg.selectAll("rect");
 
-rects.attr("width", 24)
-    .data(dataArray)
-    .attr("height", d => d)
-    .attr("fill", d => `hsl(${d}, 60%, 50%)`)
-    .attr("x", (d, i) => i * 25)
-    .attr("y", (d, i) => 200 - d)
+rects.data(dataArray)
+    .enter().append("rect")
+    .attr("width", d => d.width)
+    .attr("height", d => d.height)
+    .attr("fill", d => d.fill)
+    .attr("x", (d, i) => i * 26)
+    .attr("y", d => 150 - d.height)
