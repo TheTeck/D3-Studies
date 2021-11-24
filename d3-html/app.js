@@ -8,6 +8,12 @@ const dataArray = [
     { width: 25, height: 44, fill: 'orange' },
     { width: 25, height: 124, fill: 'green' },
     { width: 25, height: 12, fill: 'blue' },
+    { width: 25, height: 88, fill: 'red' },
+    { width: 25, height: 4, fill: 'pink' },
+    { width: 25, height: 14, fill: 'purple' },
+    { width: 25, height: 44, fill: 'orange' },
+    { width: 25, height: 124, fill: 'green' },
+    { width: 25, height: 12, fill: 'blue' },
     { width: 25, height: 88, fill: 'red' }
 ]
 
@@ -24,3 +30,15 @@ rects.data(dataArray)
     .attr("fill", d => d.fill)
     .attr("x", (d, i) => i * 26)
     .attr("y", d => 150 - d.height)
+
+d3.select("body")
+    .style('background-color', 'black')
+
+const t = d3.transition()
+    .duration(1000)
+    .ease(d3.easeLinear);
+
+d3.selectAll('rect')
+    .transition(t)
+    .delay( (d, i) => i * 100)
+    .attr("fill", "orange")
