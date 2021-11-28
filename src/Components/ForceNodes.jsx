@@ -53,11 +53,17 @@ export default function ForceNodes (props) {
             .append('g')
             .selectAll('circle')
             .data(data.nodes)
-            .enter()
+            .enter() 
             .append('circle')
                 .attr('r', 5)
                 .attr('fill', 'orange')
                 .attr('stroke', 'yellow')
+                
+        node.on('click', changeColor)
+        
+        function changeColor (d) {
+            d3.select(this).attr('fill', 'red')
+        }
         
         function ticked () {
             link
