@@ -20,20 +20,23 @@ const graph = {
     links: [
         { source: 'A', target: 'B' },
         { source: 'B', target: 'C' },
-        { source: 'C', target: 'D' },
-        { source: 'D', target: 'A' },
-        { source: 'E', target: 'A' },
-        { source: 'F', target: 'B' },
-        { source: 'G', target: 'C' },
-        { source: 'H', target: 'D' },
+        { source: 'C', target: 'A' },
+        { source: 'A', target: 'D' },
+        { source: 'D', target: 'B' },
+        { source: 'D', target: 'E' },
+        { source: 'E', target: 'B' },
         { source: 'E', target: 'F' },
-        { source: 'G', target: 'H' },
-        { source: 'I', target: 'A' },
-        { source: 'I', target: 'D' },
+        { source: 'F', target: 'B' },
+        { source: 'F', target: 'G' },
+        { source: 'G', target: 'B' },
+        { source: 'G', target: 'C' },
+        { source: 'A', target: 'H' },
+        { source: 'H', target: 'D' },
+        { source: 'D', target: 'I' },
         { source: 'I', target: 'E' },
-        { source: 'J', target: 'B' },
-        { source: 'J', target: 'C' },
-        { source: 'J', target: 'G' }
+        { source: 'D', target: 'J' },
+        { source: 'I', target: 'J' },
+        { source: 'J', target: 'H' }
     ]
 }
 
@@ -43,6 +46,8 @@ export default function ForceNodes (props) {
     const [data, setData] = useState(graph);
 
     useEffect(() => {
+        d3.select('g').remove();
+
         let svg = d3.select(svgRef.current)
                 .attr('width', width)
                 .attr('height', height)
@@ -50,10 +55,16 @@ export default function ForceNodes (props) {
         let simulation = d3
             .forceSimulation(data.nodes)
             .force("link", d3.forceLink(data.links).id(d => d.name))
-            .force("charge", d3.forceManyBody().strength(-50))
+            .force("charge", d3.forceManyBody().strength(-200))
             .force("center", d3.forceCenter(width / 2, height / 2))
             .on("tick", ticked);
         
+        let drag = d3
+            .drag()
+            .on('start', dragstarted)
+            .on('drag', dragged)
+            .on('end', dragended)
+
         let link = svg
             .append('g')
             .selectAll('line')
@@ -72,6 +83,7 @@ export default function ForceNodes (props) {
                 .attr('r', 5)
                 .attr('fill', 'orange')
                 .attr('stroke', 'yellow')
+                .call(drag)
                 
         node.on('click', changeColor)
         
@@ -89,6 +101,23 @@ export default function ForceNodes (props) {
             node
                 .attr('cx', d => d.x)
                 .attr('cy', d => d.y)
+        }
+
+        function dragstarted (e, d) {
+            simulation.alphaTarget(0.3).restart();
+            d.fx = e.x;
+            d.fy = e.y;
+        }
+
+        function dragged (e, d) {
+            d.fx = e.x;
+            d.fy = e.y;
+        }
+
+        function dragended (e, d) {
+            simulation.alphaTarget(0.1);
+            d.fx = null;
+            d.fy = null;
         }
      })
     
