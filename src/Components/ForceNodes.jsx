@@ -123,6 +123,11 @@ export default function ForceNodes (props) {
     
     return (
         <div>
+            <meter max='100' min='min' value='50'></meter>
+            <details>
+                <summary>Force-Directed Data</summary>
+                <p>All the data is represented as nodes and are linked together with forces pushing them apart thanks to D3</p>
+            </details>
             <svg ref={svgRef}></svg>
         </div>
     )
