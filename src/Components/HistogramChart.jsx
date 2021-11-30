@@ -69,6 +69,6 @@ export default function HistogramChart (props) {
 
 
     return (
-        <svg ref={svgRef}></svg>
+            <svg ref={svgRef}></svg>
     )
 }
