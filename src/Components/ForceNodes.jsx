@@ -4,65 +4,39 @@ import * as d3 from 'd3';
 const width = 1000;
 const height = 1000;
 
-const graph = {
-    nodes: [
-        { name: 'A' },
-        { name: 'B' },
-        { name: 'C' },
-        { name: 'D' },
-        { name: 'E' },
-        { name: 'F' },
-        { name: 'G' },
-        { name: 'H' },
-        { name: 'I' },
-        { name: 'J' }
-    ],
-    links: [
-        { source: 'A', target: 'B' },
-        { source: 'B', target: 'C' },
-        { source: 'C', target: 'A' },
-        { source: 'A', target: 'D' },
-        { source: 'D', target: 'B' },
-        { source: 'D', target: 'E' },
-        { source: 'E', target: 'B' },
-        { source: 'E', target: 'F' },
-        { source: 'F', target: 'B' },
-        { source: 'F', target: 'G' },
-        { source: 'G', target: 'B' },
-        { source: 'G', target: 'C' },
-        { source: 'A', target: 'H' },
-        { source: 'H', target: 'D' },
-        { source: 'D', target: 'I' },
-        { source: 'I', target: 'E' },
-        { source: 'D', target: 'J' },
-        { source: 'I', target: 'J' },
-        { source: 'J', target: 'H' }
-    ]
-}
+// const graph = {
+//     nodes: [
+//         { name: 'A' },
+//         { name: 'B' }
+//     ],
+//     links: [
+//         { source: 'A', target: 'B' }
+//     ]
+// }
 
-let nodeX = 6;
-let nodeY = 6;
-let graph2 = { nodes: [], links: [] };
+let nodeX = 10;
+let nodeY = 10;
+let linkLength = 30;
+let graph = { nodes: [], links: [] };
 
 for (let i = 0; i < nodeX * nodeY; i++) {
-    graph2.nodes.push({ name: '' + i });
+    graph.nodes.push({ name: '' + i });
 }
 
 for (let j = 0; j < nodeY; j++) {
     for (let i = 0; i < nodeX; i++) {
         if (i < nodeX - 1)
-            graph2.links.push({ source: '' + (j * nodeX + i), target: '' + (j * nodeX + i + 1) })
+            graph.links.push({ source: '' + (j * nodeX + i), target: '' + (j * nodeX + i + 1) })
         if ( j < nodeY - 1)
-            graph2.links.push({ source: '' + (j * nodeX + i), target: '' + ((j + 1) * nodeX + i)})
+            graph.links.push({ source: '' + (j * nodeX + i), target: '' + ((j + 1) * nodeX + i) })
     }
 }
 
 
 export default function ForceNodes (props) {
 
-    console.log(graph2)
     const svgRef = useRef();
-    const [data, setData] = useState(graph2);
+    const [data, setData] = useState(graph);
 
     useEffect(() => {
         d3.select('g').remove();
@@ -74,7 +48,7 @@ export default function ForceNodes (props) {
         let simulation = d3
             .forceSimulation(data.nodes)
             .force("link", d3.forceLink(data.links).id(d => d.name))
-            .force("charge", d3.forceManyBody().strength(-200))
+            .force("charge", d3.forceManyBody().strength(-30))
             .force("center", d3.forceCenter(width / 2, height / 2))
             .on("tick", ticked);
         
@@ -99,17 +73,10 @@ export default function ForceNodes (props) {
             .data(data.nodes)
             .enter() 
             .append('circle')
-                .attr('r', 5)
-                .attr('fill', 'orange')
-                .attr('stroke', 'yellow')
+                .attr('r', 75)
+                .attr('fill', 'transparent')
                 .call(drag)
-                
-        node.on('click', changeColor)
-        
-        function changeColor (d) {
-            d3.select(this).attr('fill', 'red')
-        }
-        
+            
         function ticked () {
             link
                 .attr('x1', d => d.source.x)
