@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import * as d3 from 'd3';
 
-const width = 600;
-const height = 400;
+const width = 1000;
+const height = 1000;
 
 const graph = {
     nodes: [
@@ -40,10 +40,29 @@ const graph = {
     ]
 }
 
+let nodeX = 6;
+let nodeY = 6;
+let graph2 = { nodes: [], links: [] };
+
+for (let i = 0; i < nodeX * nodeY; i++) {
+    graph2.nodes.push({ name: '' + i });
+}
+
+for (let j = 0; j < nodeY; j++) {
+    for (let i = 0; i < nodeX; i++) {
+        if (i < nodeX - 1)
+            graph2.links.push({ source: '' + (j * nodeX + i), target: '' + (j * nodeX + i + 1) })
+        if ( j < nodeY - 1)
+            graph2.links.push({ source: '' + (j * nodeX + i), target: '' + ((j + 1) * nodeX + i)})
+    }
+}
+
+
 export default function ForceNodes (props) {
 
+    console.log(graph2)
     const svgRef = useRef();
-    const [data, setData] = useState(graph);
+    const [data, setData] = useState(graph2);
 
     useEffect(() => {
         d3.select('g').remove();
