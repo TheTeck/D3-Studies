@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
 const temps = [
-    [56, 57, 59, 62, 63, 64, 62, 59, 55, 52, 49],
-    [35, 35, 36, 37, 40, 45, 50, 57, 67, 65, 61]
+    [56, 57, 59, 62, 63, 64, 62, 59, 55, 52],
+    [35, 35, 36, 37, 40, 45, 50, 57, 67, 65]
 ];
 
 const width = 1000;
@@ -42,6 +42,8 @@ export default function MultiBarChart (props) {
                 .attr('y', d => y(d))
                 .attr('height', d => y(20) - y(d))
                 .attr('width', x.bandwidth()/2)
+                .on('mouseover', showValue)
+                .on('mouseleave', hideValue)
         
         svg
             .append('g')
@@ -53,7 +55,55 @@ export default function MultiBarChart (props) {
                 .attr('y', d => y(d))
                 .attr('height', d => y(20) - y(d))
                 .attr('width', x.bandwidth()/2)
+                .on('mouseover', showValue)
+                .on('mouseleave', hideValue)
 
+        const generateScaledLine = d3.line()
+            .x((d, i) => x(i))
+            .y(y)
+            .curve(d3.curveCardinal)
+              
+        svg.selectAll('.line')
+            .data([data])
+            .join('path')
+                .attr('d', d => generateScaledLine(d))
+                .attr('fill', 'none')
+                .attr('stroke', 'orange')
+                .attr('stroke-width', 3)
+                .attr('transform', `translate(${x.bandwidth()/4}, 0)`)
+        
+        svg.selectAll('.line')
+            .data([data2])
+            .join('path')
+                .attr('d', d => generateScaledLine(d))
+                .attr('fill', 'none')
+                .attr('stroke', 'pink')
+                .attr('stroke-width', 3)
+                .attr('transform', `translate(${(x.bandwidth()/4) * 3}, 0)`)
+
+        function showValue () {
+            this.parentNode.appendChild(this);
+
+            d3.select(this)
+                .transition()
+                    .duration(300)
+                    .attr('transform', `translate(-100, 0)`)
+                    .attr('width', 200)
+                    .attr('height', 200)
+                    .attr('stroke', 'purple')
+                    .attr('stroke-width', 4)
+                    .attr('zindex', 3)
+        }
+
+        function hideValue () {
+            d3.select(this)
+                .transition()
+                    .duration(300)
+                    .attr('transform', 'translate(0, 0)')
+                    .attr('width', x.bandwidth()/2)
+                    .attr('height', d =>y(20) - y(d))
+                    .attr('stroke', 'none')
+        }
 
         function xAxis (g) {
             g
