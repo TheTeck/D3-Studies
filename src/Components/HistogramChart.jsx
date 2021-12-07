@@ -42,10 +42,15 @@ export default function HistogramChart (props) {
             .data(data.sort((a, b) => d3.descending(a.score, b.score)))
             .join('rect')
                 .attr('x', (d, i) => x(i))
-                .attr('y', d => y(d.score))
-                .attr('height', d => y(0) - y(d.score))
+                .attr('y', height - margin.bottom)
+                .attr('height', 0)
                 .attr('width', x.bandwidth())
                 .attr('class', 'rectangle')
+                .transition()
+                    .duration(1500)
+                    .delay((d, i) => i * 100)
+                    .attr('height', d => y(0) - y(d.score))
+                    .attr('y', d => y(d.score))
 
         function xAxis (g) {
             g
