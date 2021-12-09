@@ -17,7 +17,7 @@ const margin = { top: 50, right: 50, bottom: 50, left: 50 };
 
 export default function HistogramChart (props) {
 
-    const [data, setData] = useState(scores)
+    const [data] = useState(scores)
     const svgRef = useRef();
 
     useEffect(() => {
@@ -59,14 +59,14 @@ export default function HistogramChart (props) {
         function xAxis (g) {
             g
                 .attr('transform', `translate(0, ${height - margin.bottom})`)
-                .call(d3.axisBottom(x).tickFormat(i => data[i].name))
+                .call(d3.axisBottom(x).tickFormat((d, i) => data[i].name).tickSize(10).tickPadding(5))
                 .attr('font-size', '20px')
         }
 
         function yAxis (g) {
             g
                 .attr('transform', `translate(${margin.left}, 0)`)
-                .call(d3.axisLeft(y).ticks(null, data.format))
+                .call(d3.axisLeft(y).ticks(null, data.format). tickSize(10))
                 .attr('font-size', '20px')
         }
         
