@@ -1,0 +1,17 @@
+#letter-svg {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(204, 240, 244);
+}
+
+text {
+  font: bold 48px monospace;
+}
+
+.exit {
+  fill: red;
+}
+
+.enter {
+  fill: green;
+}
