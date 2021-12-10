@@ -7,17 +7,19 @@ import BubbleChart from './Components/BubbleChart';
 import HistogramChart from './Components/HistogramChart';
 import MultiBarChart from './Components/MultiBarChart';
 import HorizontalBar from './Components/HorizontalBars';
+import LetterTransition from './Components/LetterTransition';
 
 function App() {
   
   return (
     <div className="App">
-      <HorizontalBar />
+      {/* <HorizontalBar />
       <LineGraph />
       <HistogramChart />
       <MultiBarChart />
       <ForceNodes />
-      <BubbleChart />
+      <BubbleChart /> */}
+      <LetterTransition />
     </div>
   );
 }
