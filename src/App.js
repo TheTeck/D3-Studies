@@ -1,13 +1,14 @@
 import React from 'react';
 
 import './App.css';
-import LineGraph from './Components/LineGraph';
-import ForceNodes from './Components/ForceNodes';
-import BubbleChart from './Components/BubbleChart';
-import HistogramChart from './Components/HistogramChart';
-import MultiBarChart from './Components/MultiBarChart';
-import HorizontalBar from './Components/HorizontalBars';
-import LetterTransition from './Components/LetterTransition';
+// import LineGraph from './Components/LineGraph';
+// import ForceNodes from './Components/ForceNodes';
+// import BubbleChart from './Components/BubbleChart';
+// import HistogramChart from './Components/HistogramChart';
+// import MultiBarChart from './Components/MultiBarChart';
+// import HorizontalBar from './Components/HorizontalBars';
+// import LetterTransition from './Components/LetterTransition';
+import PieChart from './Components/PieChart';
 
 function App() {
   
@@ -18,8 +19,9 @@ function App() {
       <HistogramChart />
       <MultiBarChart />
       <ForceNodes />
-      <BubbleChart /> */}
-      <LetterTransition />
+      <BubbleChart />
+      <LetterTransition /> */}
+      <PieChart />
     </div>
   );
 }
