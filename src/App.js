@@ -8,7 +8,8 @@ import './App.css';
 // import MultiBarChart from './Components/MultiBarChart';
 // import HorizontalBar from './Components/HorizontalBars';
 // import LetterTransition from './Components/LetterTransition';
-import PieChart from './Components/PieChart';
+// import PieChart from './Components/PieChart';
+import AreaChart from './Components/AreaChart';
 
 function App() {
   
@@ -21,7 +22,8 @@ function App() {
       <ForceNodes />
       <BubbleChart />
       <LetterTransition /> */}
-      <PieChart />
+      {/* <PieChart /> */}
+      <AreaChart />
     </div>
   );
 }
